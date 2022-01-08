@@ -1,0 +1,13 @@
+CREATE TABLE users (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    username VARCHAR(32) NOT NULL UNIQUE ,
+    password VARCHAR(250) NOT NULL ,
+    role VARCHAR(10) NOT NULL
+);
+
+CREATE TABLE films (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    name_ua VARCHAR(250) NOT NULL ,
+    name_en VARCHAR(250) NOT NULL ,
+    description VARCHAR(250)
+);
