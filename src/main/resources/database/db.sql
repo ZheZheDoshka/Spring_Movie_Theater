@@ -1,3 +1,10 @@
+DROP TABLE users;
+DROP TABLE movie;
+DROP TABLE hall;
+DROP TABLE n_row;
+DROP TABLE screening;
+DROP TABLE ticket;
+
 CREATE TABLE users (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
     username VARCHAR(32) NOT NULL UNIQUE ,
@@ -5,9 +12,38 @@ CREATE TABLE users (
     role VARCHAR(10) NOT NULL
 );
 
-CREATE TABLE films (
+CREATE TABLE movie (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    name_ru VARCHAR(250) NOT NULL ,
     name_ua VARCHAR(250) NOT NULL ,
     name_en VARCHAR(250) NOT NULL ,
     description VARCHAR(250)
 );
+
+CREATE TABLE hall (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    num_row INT NOT NULL,
+    name VARCHAR(30)
+);
+
+CREATE TABLE n_row (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    hall INT NOT NULL ,
+    number INT NOT NULL ,
+    seat_capacity INT NOT NULL
+);
+
+CREATE TABLE screening (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    hall INT NOT NULL ,
+    movie INT NOT NULL ,
+    time DATETIME NOT NULL
+);
+
+CREATE TABLE ticket (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+    screening INT NOT NULL ,
+    num_row INT NOT NULL ,
+    seat INT NOT NULL ,
+    cost INT NOT NULL
+)
