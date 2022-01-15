@@ -1,8 +1,8 @@
 DROP TABLE users;
-DROP TABLE movie;
 DROP TABLE hall;
 DROP TABLE n_row;
 DROP TABLE screening;
+DROP TABLE movie;
 DROP TABLE ticket;
 
 CREATE TABLE users (
@@ -17,7 +17,9 @@ CREATE TABLE movie (
     name_ru VARCHAR(250) NOT NULL ,
     name_ua VARCHAR(250) NOT NULL ,
     name_en VARCHAR(250) NOT NULL ,
-    description VARCHAR(250)
+    description_ru VARCHAR(250) ,
+    description_ua VARCHAR(250) ,
+    description_en VARCHAR(250)
 );
 
 CREATE TABLE hall (
@@ -36,8 +38,10 @@ CREATE TABLE n_row (
 CREATE TABLE screening (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
     hall INT NOT NULL ,
-    movie INT NOT NULL ,
-    time DATETIME NOT NULL
+    movie_id INT NOT NULL ,
+    time DATE NOT NULL ,
+    base_cost INT NOT NULL ,
+    CONSTRAINT scr_movie FOREIGN KEY (movie_id) REFERENCES movie (id) ON DELETE CASCADE
 );
 
 CREATE TABLE ticket (
@@ -46,4 +50,16 @@ CREATE TABLE ticket (
     num_row INT NOT NULL ,
     seat INT NOT NULL ,
     cost INT NOT NULL
-)
+);
+
+INSERT INTO users VALUES (1, 'admin1610', '$2a$12$odumr60QQXCkeA/TOhvJZ.GHC5CZO8H4BRRlZSIzrX.0OhrfDpJwO', 'ADMIN');
+INSERT INTO users VALUES (2, 'testUser', '$2a$12$odumr60QQXCkeA/TOhvJZ.GHC5CZO8H4BRRlZSIzrX.0OhrfDpJwO', 'USER');
+
+INSERT INTO movie VALUES (1, 'Фильм', 'Фільм', 'Movie', 'Это фильм', 'Це фільм', 'Yes, a movie indeed');
+
+INSERT INTO hall valueS (1, 2, 'H-404');
+
+INSERT INTO n_row values (1, 1, 1, 5);
+INSERT INTO n_row values (2, 1, 2, 6);
+
+INSERT INTO screening VALUE (1, 1, 1, '2022-11-05', 10000);

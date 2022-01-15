@@ -16,5 +16,7 @@ public class MovieDTO {
     private String name_ru;
     private String name_ua;
     private String name_en;
-    private String description;
+    private String description_ru;
+    private String description_ua;
+    private String description_en;
 }

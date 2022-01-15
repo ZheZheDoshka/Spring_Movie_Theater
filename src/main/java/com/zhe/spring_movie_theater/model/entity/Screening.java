@@ -8,11 +8,12 @@ import lombok.Setter;
 import javax.persistence.*; //wow, nice feature!
 import java.sql.Date;
 
-@Entity
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity(name ="screening")
 @Table(name ="screening")
 public class Screening {
     @Id
@@ -22,8 +23,9 @@ public class Screening {
     @Column(name = "hall")
     private int hall;
 
-    @Column(name = "movie")
-    private int movie;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "movie_id", referencedColumnName = "id")
+    private Movie movie;
 
     @Column(name = "time")
     private Date time;

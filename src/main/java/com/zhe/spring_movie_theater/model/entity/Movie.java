@@ -6,12 +6,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*; //wow, nice feature!
+import java.util.List;
 
-@Entity
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity(name ="movie")
 @Table(name ="movie")
 public class Movie {
     @Id
@@ -27,6 +29,15 @@ public class Movie {
     @Column(name = "name_en")
     private String name_en;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "description_ru")
+    private String description_ru;
+
+    @Column(name = "description_en")
+    private String description_en;
+
+    @Column(name = "description_ua")
+    private String description_ua;
+
+    @OneToMany(mappedBy = "movie", fetch = FetchType.EAGER)
+    private List<Screening> screeningList;
 }
