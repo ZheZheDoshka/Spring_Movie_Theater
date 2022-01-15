@@ -32,7 +32,8 @@ CREATE TABLE n_row (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
     hall INT NOT NULL ,
     number INT NOT NULL ,
-    seat_capacity INT NOT NULL
+    seat_capacity INT NOT NULL,
+    CONSTRAINT r_hall FOREIGN KEY (hall) REFERENCES hall (id) ON DELETE CASCADE
 );
 
 CREATE TABLE screening (
@@ -41,7 +42,8 @@ CREATE TABLE screening (
     movie_id INT NOT NULL ,
     time DATE NOT NULL ,
     base_cost INT NOT NULL ,
-    CONSTRAINT scr_movie FOREIGN KEY (movie_id) REFERENCES movie (id) ON DELETE CASCADE
+    CONSTRAINT scr_movie FOREIGN KEY (movie_id) REFERENCES movie (id) ON DELETE CASCADE,
+    CONSTRAINT scr_hall FOREIGN KEY (hall) REFERENCES hall (id) ON DELETE CASCADE
 );
 
 CREATE TABLE ticket (
@@ -49,7 +51,9 @@ CREATE TABLE ticket (
     screening INT NOT NULL ,
     num_row INT NOT NULL ,
     seat INT NOT NULL ,
-    cost INT NOT NULL
+    cost INT NOT NULL ,
+    CONSTRAINT t_screening FOREIGN KEY (screening) REFERENCES screening (id) ON DELETE CASCADE ,
+    CONSTRAINT t_screening FOREIGN KEY (num_row) REFERENCES n_row (id) ON DELETE CASCADE
 );
 
 INSERT INTO users VALUES (1, 'admin1610', '$2a$12$odumr60QQXCkeA/TOhvJZ.GHC5CZO8H4BRRlZSIzrX.0OhrfDpJwO', 'ADMIN');

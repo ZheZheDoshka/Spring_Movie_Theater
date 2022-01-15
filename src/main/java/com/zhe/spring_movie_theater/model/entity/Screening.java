@@ -20,8 +20,9 @@ public class Screening {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "hall")
-    private int hall;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "hall", referencedColumnName = "id")
+    private Hall hall;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "movie_id", referencedColumnName = "id")

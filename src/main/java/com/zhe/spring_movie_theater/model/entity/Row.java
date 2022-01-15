@@ -18,8 +18,9 @@ public class Row {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "hall")
-    private int hall;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "hall", referencedColumnName = "id")
+    private Hall hall;
 
     @Column(name = "number")
     private int number;

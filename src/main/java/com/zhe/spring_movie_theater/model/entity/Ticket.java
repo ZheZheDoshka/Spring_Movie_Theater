@@ -19,11 +19,13 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "screening")
-    private int screening;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "screening", referencedColumnName = "id")
+    private Screening screening;
 
-    @Column(name = "num_row")
-    private int num_row;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "num_row", referencedColumnName = "id")
+    private Row num_row;
 
     @Column(name = "seat")
     private int seat;

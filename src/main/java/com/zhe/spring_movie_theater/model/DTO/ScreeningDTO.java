@@ -1,5 +1,6 @@
 package com.zhe.spring_movie_theater.model.DTO;
 
+import com.zhe.spring_movie_theater.model.entity.Hall;
 import com.zhe.spring_movie_theater.model.entity.Movie;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +18,7 @@ import java.sql.Date;
 public class ScreeningDTO {
 
     private Long id;
-    private int hall;
+    private Hall hall;
     private Movie movie;
     private Date time;
 }
