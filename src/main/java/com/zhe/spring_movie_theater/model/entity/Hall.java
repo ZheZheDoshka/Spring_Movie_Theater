@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*; //wow, nice feature!
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,4 +24,7 @@ public class Hall {
 
     @Column(name = "name")
     private String name;
+
+    @OneToMany(mappedBy = "hall", fetch = FetchType.EAGER)
+    private List<Row> rowList;
 }

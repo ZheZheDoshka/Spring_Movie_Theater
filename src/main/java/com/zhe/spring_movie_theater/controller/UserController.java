@@ -1,10 +1,13 @@
 package com.zhe.spring_movie_theater.controller;
 
 import com.zhe.spring_movie_theater.model.DTO.UserDTO;
+import com.zhe.spring_movie_theater.model.entity.Hall;
 import com.zhe.spring_movie_theater.model.entity.Screening;
 import com.zhe.spring_movie_theater.model.entity.User;
+import com.zhe.spring_movie_theater.repository.HallRepository;
 import com.zhe.spring_movie_theater.repository.ScreeningRepository;
 import com.zhe.spring_movie_theater.repository.UserRepository;
+import com.zhe.spring_movie_theater.service.HallService;
 import com.zhe.spring_movie_theater.service.ScreeningService;
 import com.zhe.spring_movie_theater.service.SecurityService;
 import com.zhe.spring_movie_theater.service.UserService;
@@ -31,7 +34,14 @@ public class UserController {
     private ScreeningRepository screeningRepository;
 
     @Autowired
+    private HallRepository hallRepository;
+
+    @Autowired
     private ScreeningService screeningService;
+
+
+    @Autowired
+    private HallService hallService;
 
     @Autowired
     private UserService userService;
@@ -60,7 +70,6 @@ public class UserController {
     @GetMapping("/home")
     public String home2(Model model) {
         List<Screening> screenings = screeningService.findAllScreenings();
-        System.out.println(screeningRepository.findAll());
         model.addAttribute("screenings", screenings);
         return "home";
     }
