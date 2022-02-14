@@ -20,9 +20,7 @@
 <div class="container">
     <header class="d-flex justify-content-md-end">
         <ul class="nav nav-pills">
-            <li class="nav-item" sec:authorize="hasRole('ADMIN')"><a href="/admin" class="nav-link" th:utext="#{navlink.admin}"></a></li>
-            <li class="nav-item" sec:authorize="hasRole('USER')"><a href="/usercabinet" class="nav-link" th:utext="#{navlink.cabinet}"></a></li>
-            <li class="nav-item"><a href="/" class="nav-link active" th:utext="#{navlink.home}"></a></li>
+            <li class="nav-item"><a href="/" class="nav-link" th:utext="#{navlink.home}"></a></li>
             <li class="nav-item" sec:authorize="hasRole('USER')"><a href="/logout" class="nav-link" th:utext="#{login.out}"></a></li>
             <li class="nav-item" sec:authorize="hasRole('ADMIN')"><a href="/logout" class="nav-link" th:utext="#{login.out}"></a></li>
             <li class="nav-item">
@@ -41,19 +39,17 @@
     </header>
 </div>
 
-
-<div class = "container">
+<div>
     <h1 th:utext="#{admin.car.list}"></h1>
 
-    <div class="alert alert-info mt-2", th:each = "hall: ${halls}" >
-
-        <div class="row">
-            <div class="col-xs-6 col-md-3" th:text = "${hall.getName()}"></div>
-            <div class="col-xs-6 col-md-3" th:text = "${hall.getNum_row()}"></div>
-        </div>
-        <div class="alert alert-info mt-2", th:each = "row: ${hall.getRowList()}" >
-            <div class="col-xs-6 col-md-3" th:text = "${row.getNumber()}"></div>
-            <div class="col-xs-6 col-md-3" th:text = "${row.getSeat_capacity()}"></div>
+    <div class="row" th:each = "seat: ${seats}" >
+        <div class="col"  th:each = "row_seat: ${seat}">
+            <div>
+            <div th:switch="${row_seat.intValue()}">
+                    <button th:case="0" type="button" class="btn btn-secondary">| |</button>
+                    <button th:case="1" type="button" class="btn btn-primary">[ ]</button>
+            </div>
+            </div>
         </div>
     </div>
 </div>

@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*; //wow, nice feature!
 import java.util.List;
@@ -25,6 +27,7 @@ public class Hall {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "hall", fetch = FetchType.EAGER)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "hall", fetch = FetchType.LAZY)
     private List<Row> rowList;
 }

@@ -12,4 +12,6 @@ public interface HallService {
     Page<Hall> findAllHalls(String sort, Pageable pageable);
 
     List<Hall> findAllHalls();
+
+    Hall findById(Long id);
 }

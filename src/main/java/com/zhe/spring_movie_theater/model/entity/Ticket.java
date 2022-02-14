@@ -32,4 +32,11 @@ public class Ticket {
 
     @Column(name = "cost")
     private int cost;
+
+    public Ticket(Screening screening, Row num_row, int seat, int cost) {
+        this.screening = screening;
+        this.num_row = num_row;
+        this.seat = seat;
+        this.cost = cost;
+    }
 }

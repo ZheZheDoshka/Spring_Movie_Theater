@@ -6,7 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*; //wow, nice feature!
-import java.sql.Date;
+import java.util.Date;
+import java.util.List;
 
 
 @Getter
@@ -30,4 +31,10 @@ public class Screening {
 
     @Column(name = "time")
     private Date time;
+
+    @Column(name = "base_cost")
+    private Long base_cost;
+
+    @OneToMany(mappedBy = "screening")
+    private List<Ticket> ticketList;
 }

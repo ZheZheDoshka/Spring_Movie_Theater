@@ -29,4 +29,14 @@ public class ScreeeningServiceImpl implements ScreeningService {
     public List<Screening> findAllScreenings() {
         return screeningRepository.findAll();
     }
+
+    @Override
+    public Screening findById(Long id) {
+        return screeningRepository.findById(id).get();
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        screeningRepository.deleteById(id);
+    }
 }

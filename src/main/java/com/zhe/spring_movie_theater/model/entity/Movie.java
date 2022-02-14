@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*; //wow, nice feature!
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 
@@ -38,6 +40,26 @@ public class Movie {
     @Column(name = "description_ua")
     private String description_ua;
 
-    @OneToMany(mappedBy = "movie", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "movie")
     private List<Screening> screeningList;
+
+    public Date fromDate(){
+        Date from = screeningList.get(0).getTime();
+        for (Screening i: screeningList) {
+            if (i.getTime().before(from)) {
+                from = i.getTime();
+            }
+        }
+        return from;
+    }
+
+    public Date toDate(){
+        Date to = screeningList.get(0).getTime();
+        for (Screening i: screeningList) {
+            if (i.getTime().after(to)) {
+                to = i.getTime();
+            }
+        }
+        return to;
+    }
 }

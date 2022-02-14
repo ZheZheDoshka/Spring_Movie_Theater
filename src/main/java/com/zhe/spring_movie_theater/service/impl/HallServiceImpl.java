@@ -29,4 +29,9 @@ public class HallServiceImpl implements HallService {
     public List<Hall> findAllHalls() {
         return hallRepository.findAll();
     }
+
+    @Override
+    public Hall findById(Long id) {
+        return hallRepository.findById(id).get();
+    }
 }

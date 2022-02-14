@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Date;
+import java.util.Date;
 
 
 @Getter
@@ -20,5 +20,6 @@ public class ScreeningDTO {
     private Long id;
     private Hall hall;
     private Movie movie;
-    private Date time;
+    private String time;
+    private Long base_cost;
 }

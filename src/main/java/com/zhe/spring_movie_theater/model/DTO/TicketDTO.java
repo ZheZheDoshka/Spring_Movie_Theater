@@ -2,6 +2,7 @@ package com.zhe.spring_movie_theater.model.DTO;
 
 import com.zhe.spring_movie_theater.model.entity.Row;
 import com.zhe.spring_movie_theater.model.entity.Screening;
+import com.zhe.spring_movie_theater.model.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,4 +20,5 @@ public class TicketDTO {
     private Row num_row;
     private int seat;
     private int cost;
+    private String username;
 }

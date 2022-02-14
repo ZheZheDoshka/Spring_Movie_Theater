@@ -3,11 +3,13 @@ package com.zhe.spring_movie_theater.controller;
 import com.zhe.spring_movie_theater.model.DTO.HallDTO;
 import com.zhe.spring_movie_theater.model.DTO.MovieDTO;
 import com.zhe.spring_movie_theater.model.DTO.RowDTO;
+import com.zhe.spring_movie_theater.model.DTO.ScreeningDTO;
 import com.zhe.spring_movie_theater.model.entity.Hall;
 import com.zhe.spring_movie_theater.model.entity.Movie;
 import com.zhe.spring_movie_theater.model.entity.Screening;
 import com.zhe.spring_movie_theater.service.HallService;
 import com.zhe.spring_movie_theater.service.MovieService;
+import com.zhe.spring_movie_theater.service.ScreeningService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Controller
@@ -35,14 +39,11 @@ public class AdminController {
     @Autowired
     private MovieService movieService;
 
-    @GetMapping("/hall_control")
-    public String home2(Model model) {
-        List<Hall> halls = hallService.findAllHalls();
-        model.addAttribute("halls", halls);
-        return "a_hall_control";
-    }
+    @Autowired
+    private ScreeningService screeningService;
 
-    @GetMapping("/add_hall")
+
+   /* @GetMapping("/add_hall")
     public String hall_add(Model model) {
         model.addAttribute("hallForm", new HallDTO());
         return "add_hall";
@@ -63,17 +64,73 @@ public class AdminController {
         Hall hall = mapper.map(hallForm, Hall.class);
         hallService.save(hall);
         return "redirect:/ucarcontrol";
+    }*/
+
+    @GetMapping("/movie_control")
+    public String movie(Model model) {
+        List<Movie> movies = movieService.findAllMovies();
+        model.addAttribute("movies", movies);
+        return "a_movie_control";
+    }
+
+    @GetMapping("/add_movie")
+    public String movie_add(Model model) {
+        model.addAttribute("movieForm", new MovieDTO());
+        return "add_movie";
     }
 
     @PostMapping("/add_movie")
     public String movie_add(@ModelAttribute("movieForm") MovieDTO movieForm, BindingResult bindingResult) {
         //userValidator.validate(userForm, bindingResult);
         if (bindingResult.hasErrors()) {
-            return "ucaradd";
+            return "";
         }
         Movie movie = mapper.map(movieForm, Movie.class);
         movieService.save(movie);
-        return "redirect:/ucarcontrol";
+
+        return "redirect:/movie_control";
     }
 
+
+    @PostMapping("/{id}/add_screening")
+    public String screening_add(@ModelAttribute("screeningForm") ScreeningDTO screeningForm,
+                                @PathVariable String id, BindingResult bindingResult) {
+        //userValidator.validate(userForm, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return "";
+        }
+        Screening screening = new Screening();
+        Hall hall = hallService.findById(Long.valueOf(1));
+        Movie movie = movieService.findById(Long.valueOf(id));
+        screening.setHall(hall);
+        screening.setMovie(movie);
+        screeningForm.setTime(screeningForm.getTime().substring(0,9)+' '+screeningForm.getTime().substring(11)+":00");
+        Timestamp date = Timestamp.valueOf(screeningForm.getTime());
+        screening.setTime(date);
+        screening.setBase_cost(screeningForm.getBase_cost());
+        screeningService.save(screening);
+        return "redirect:/{id}/screening_control";
+    }
+
+    @GetMapping("/{id}/screening_control")
+    public String screening_control(Model model, @PathVariable String id) {
+        Long sId = Long.valueOf(id);
+        List<Screening> screenings = movieService.findById(sId).getScreeningList();
+        model.addAttribute("screenings", screenings);
+        model.addAttribute("id", sId);
+        return "screening_control";
+    }
+
+    @GetMapping("/{id}/add_screening")
+    public String screening_add(Model model, @PathVariable String id) {
+        model.addAttribute("screeningForm", new ScreeningDTO());
+        return "add_screening";
+    }
+
+    @PostMapping("/{id}/delete")
+    public String sessionDelete(@PathVariable String id){
+        Long sId = Long.valueOf(id);
+        screeningService.deleteById(sId);
+        return "redirect:/movie_control";
+    }
 }

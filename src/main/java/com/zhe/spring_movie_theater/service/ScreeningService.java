@@ -1,6 +1,7 @@
 package com.zhe.spring_movie_theater.service;
 
 import com.zhe.spring_movie_theater.model.entity.Hall;
+import com.zhe.spring_movie_theater.model.entity.Movie;
 import com.zhe.spring_movie_theater.model.entity.Screening;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,4 +14,8 @@ public interface ScreeningService {
     Page<Screening> findAllScreenings(String sort, Pageable pageable);
 
     List<Screening> findAllScreenings();
+
+    Screening findById(Long id);
+
+    void deleteById(Long id);
 }

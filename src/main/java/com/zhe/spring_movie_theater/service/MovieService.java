@@ -14,4 +14,6 @@ public interface MovieService {
     Page<Movie> findAllMovies(String sort, Pageable pageable);
 
     List<Movie> findAllMovies();
+
+    Movie findById(Long id);
 }
