@@ -16,4 +16,6 @@ public interface MovieService {
     List<Movie> findAllMovies();
 
     Movie findById(Long id);
+
+    List<Movie> findAllValidMovies();
 }

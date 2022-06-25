@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*; //wow, nice feature!
+import java.util.List;
 
 @Entity
 @Getter
@@ -29,4 +30,7 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "role")
     private Role role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Ticket> ticketList;
 }

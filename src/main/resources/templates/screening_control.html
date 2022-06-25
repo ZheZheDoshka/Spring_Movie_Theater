@@ -22,7 +22,7 @@
 <div class="container">
     <header class="d-flex justify-content-md-end">
         <ul class="nav nav-pills">
-            <li class="nav-item" sec:authorize="hasRole('ADMIN')"><a href="/admin" class="nav-link" th:utext="#{navlink.admin}"></a></li>
+            <li class="nav-item" sec:authorize="hasRole('ADMIN')"><a href="/movie_control" class="nav-link" th:utext="#{navlink.admin}"></a></li>
             <li class="nav-item" sec:authorize="hasRole('USER')"><a href="/usercabinet" class="nav-link" th:utext="#{navlink.cabinet}"></a></li>
             <li class="nav-item"><a href="/" class="nav-link active" th:utext="#{navlink.home}"></a></li>
             <li class="nav-item" sec:authorize="hasRole('USER')"><a href="/logout" class="nav-link" th:utext="#{login.out}"></a></li>
@@ -65,6 +65,15 @@
                         <td>
                             <a th:href="@{'/'+ ${screening.getId()} + '/hall_view'}" class="btn btn-light" type="button" th:utext="#{admin.movie.add}"></a>
                         </td>
+
+                        <td>
+                            <form class="form-signin" method="post"  th:action="@{'/'+ ${screening.getId()} + '/delete'}" class="form-signin">
+                                <button type="submit" class="btn btn-dark" th:utext="#{admin.delete}"></button>
+                                <div class="text-right">
+                                    <a class="text-info" href="/home" th:utext="#{user.back}"></a>
+                                </div>
+                            </form>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -95,6 +104,10 @@
             <tr>
                 <th scope="col"  th:utext="#{admin.movie.price}"></th>
                 <th scope="col"  th:utext="#{admin.movie.date}"></th>
+            </tr>
+            <tr>
+                <th scope="row"  th:utext="${screening.getBase_cost()}"></th>
+                <td th:utext ="${screening.getTime()}"></td>
             </tr>
             </thead>
         </div>

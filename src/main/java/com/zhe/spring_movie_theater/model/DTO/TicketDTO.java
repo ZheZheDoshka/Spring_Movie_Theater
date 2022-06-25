@@ -20,5 +20,5 @@ public class TicketDTO {
     private Row num_row;
     private int seat;
     private int cost;
-    private String username;
+    private User user;
 }

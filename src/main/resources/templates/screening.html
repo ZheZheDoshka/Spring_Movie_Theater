@@ -43,14 +43,16 @@
     </header>
 </div>
 
+
 <div class = "container">
     <h1 th:utext="#{admin.car.list}"></h1>
 
-    <div class="alert alert-info mt-2", th:each = "movie: ${movies}" >
+    <div class="alert alert-info mt-2", th:each = "screening: ${screenings}" >
         <thead>
         <tr>
             <th scope="col"  th:utext="#{admin.movie.name}"></th>
             <th scope="col"  th:utext="#{admin.movie.desc}"></th>
+            <td></td>
         </tr>
         </thead>
         <div th:switch="${#locale.language}">
@@ -58,10 +60,10 @@
                 <table class="table">
                     <tbody>
                     <tr>
-                        <th scope="row" th:utext="${movie.getName_en()}"></th>
-                        <td th:utext="${movie.getDescription_en()}"></td>
+                        <th scope="row" th:utext="${screening.getMovie().getName_en()}"></th>
+                        <td th:utext="${screening.getMovie().getDescription_en()}"></td>
                         <td>
-                            <a th:href="@{'/'+ ${movie.getId()} + '/screening'}" class="btn btn-light" type="button" th:utext="#{admin.screening.list}"></a>
+                            <a th:href="@{'/'+ ${screening.getId()} + '/hall_view'}" class="btn btn-light" type="button" th:utext="#{admin.hall.list}"></a>
                         </td>
                     </tr>
                     </tbody>
@@ -71,35 +73,30 @@
                 <table class="table">
                     <tbody>
                     <tr>
-                        <th scope="row" th:utext="${movie.getName_ru()}"></th>
-                        <td th:utext="${movie.getDescription_ru()}"></td>
+                        <th scope="row" th:utext="${screening.getMovie().getName_ru()}"></th>
+                        <td th:utext="${screening.getMovie().getDescription_ru()}"></td>
                         <td>
-                            <a th:href="@{'/'+ ${movie.getId()} + '/screening'}" class="btn btn-light" type="button" th:utext="#{admin.screening.list}"></a>
+                            <a th:href="@{'/'+ ${screening.getId()} + '/hall_view'}" class="btn btn-light" type="button" th:utext="#{admin.hall.list}"></a>
                         </td>
                     </tr>
                     </tbody>
                 </table>
 
             </div>
-
             <thead>
             <tr>
-                <th scope="row"  th:utext="#{admin.to}"></th>
-                <td th:utext="#{admin.from}"></td>
-
+                <th scope="col"  th:utext="#{admin.movie.price}"></th>
+                <th scope="col"  th:utext="#{admin.movie.date}"></th>
             </tr>
-            </thead>
-
-            <thead>
             <tr>
-                <th scope="row" th:utext="${movie.toDate()}" ></th>
-                <td  th:utext="${movie.fromDate()}"></td>
+                <th scope="row"  th:utext="${screening.getBase_cost()}"></th>
+                <td th:utext ="${screening.getTime()}"></td>
             </tr>
             </thead>
-
         </div>
     </div>
+    <a sec:authorize="hasRole('ADMIN')" th:href="@{'/'+ ${id} + '/add_screening'}" class="btn btn-light" type="button" th:utext="#{admin.screening.add}"></a>
+
 </div>
 </body>
 </html>
-

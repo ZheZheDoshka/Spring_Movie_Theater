@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,6 +31,18 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<Movie> findAllMovies() {
         return movieRepository.findAll();
+    }
+
+    @Override
+    public List<Movie> findAllValidMovies() {
+        List<Movie> all_movies = movieRepository.findAll();
+        List<Movie> movies = new ArrayList<>();
+        for (Movie i:all_movies) {
+            if (i.getScreeningList().size()!=0) {
+                movies.add(i);
+            }
+        }
+        return movies;
     }
 
     @Override

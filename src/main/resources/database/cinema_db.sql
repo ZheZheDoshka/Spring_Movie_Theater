@@ -52,7 +52,8 @@ CREATE TABLE ticket (
     num_row INT NOT NULL ,
     seat INT NOT NULL ,
     cost INT NOT NULL ,
-    username VARCHAR(30) ,
+    user INT NOT NULL ,
+    CONSTRAINT t_user FOREIGN KEY (user) REFERENCES users (id) ON DELETE CASCADE ,
     CONSTRAINT t_screening FOREIGN KEY (screening) REFERENCES screening (id) ON DELETE CASCADE ,
     CONSTRAINT t_row FOREIGN KEY (num_row) REFERENCES n_row (id) ON DELETE CASCADE
 );
@@ -71,5 +72,5 @@ INSERT INTO n_row values (2, 1, 1, 6);
 INSERT INTO screening VALUE (1, 1, 1, '2022-11-05 10:05:00', 10000);
 INSERT INTO screening VALUE (2, 1, 1, '2022-11-07 10:05:00', 10000);
 
-INSERT INTO ticket VALUE (1,1, 1, 2, 100, 'test');
-INSERT INTO ticket VALUE (2,1, 2, 4, 100, 'test');
+INSERT INTO ticket VALUE (1,1, 1, 2, 100, 1);
+INSERT INTO ticket VALUE (2,1, 2, 4, 100, 1);

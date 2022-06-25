@@ -27,8 +27,6 @@ public class UserValidator implements Validator {
         if((user.getUsername().length() < 2)||(user.getUsername().length()>32))
             errors.rejectValue("username","login.invalid.username");
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors,"username", "login.required");
-
         if(userService.findByUsername(user.getUsername())!=null){
             errors.rejectValue("username", "login.repeating.username");
         }

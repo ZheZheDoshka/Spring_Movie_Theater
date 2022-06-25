@@ -44,7 +44,7 @@
 
 
 <div class = "container">
-    <h1 th:utext="#{admin.car.list}"></h1>
+    <h1 th:utext="#{admin.movie.list}"></h1>
 
     <div class="alert alert-info mt-2", th:each = "movie: ${movies}" >
         <table class="table">
@@ -64,7 +64,7 @@
                         <th scope="row" th:utext="${movie.getName_en()}"></th>
                         <td th:utext="${movie.getDescription_en()}"></td>
                         <td>
-                            <a th:href="@{'/'+ ${movie.getId()} + '/screening_control'}" class="btn btn-light" type="button" th:utext="#{admin.movie.add}"></a>
+                            <a th:href="@{'/'+ ${movie.getId()} + '/screening_control'}" class="btn btn-light" type="button" th:utext="#{admin.screening.list}"></a>
                         </td>
                     </tr>
                     </tbody>
@@ -77,7 +77,7 @@
                         <th scope="row" th:utext="${movie.getName_ru()}"></th>
                         <td th:utext="${movie.getDescription_ru()}"></td>
                         <td>
-                            <a th:href="@{'/'+ ${movie.getId()} + '/screening_control'}" class="btn btn-light" type="button" th:utext="#{admin.movie.add}"></a>
+                            <a th:href="@{'/'+ ${movie.getId()} + '/screening_control'}" class="btn btn-light" type="button" th:utext="#{admin.screening.list}"></a>
                         </td>
                     </tr>
                     </tbody>

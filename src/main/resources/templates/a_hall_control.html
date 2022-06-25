@@ -46,7 +46,12 @@
         <div class="col"  th:each = "row_seat: ${seat}">
             <div>
             <div th:switch="${row_seat.intValue()}">
-                    <button th:case="0" type="button" class="btn btn-secondary">| |</button>
+                    <button th:case="0" type="button" class="btn btn-secondary">|<a sec:authorize="hasRole('USER')">
+                        <form class="form-signin" method="post"  th:action="@{'/ticket/'+ ${id} + '/' + ${seat.indexOf(row_seat)} + '/' + ${seats.indexOf(seat)}}" >
+                        <button type="submit" class="btn btn-dark" ></button>
+                        </form>
+                    </a>|
+                    </button>
                     <button th:case="1" type="button" class="btn btn-primary">[ ]</button>
             </div>
             </div>

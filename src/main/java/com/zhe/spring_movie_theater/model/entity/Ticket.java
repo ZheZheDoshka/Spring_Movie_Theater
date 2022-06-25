@@ -33,10 +33,15 @@ public class Ticket {
     @Column(name = "cost")
     private int cost;
 
-    public Ticket(Screening screening, Row num_row, int seat, int cost) {
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user", referencedColumnName = "id")
+    private User user;
+
+    public Ticket(Screening screening, Row num_row, int seat, int cost, User user) {
         this.screening = screening;
         this.num_row = num_row;
         this.seat = seat;
         this.cost = cost;
+        this.user = user;
     }
 }

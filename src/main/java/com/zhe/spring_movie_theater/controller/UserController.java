@@ -1,10 +1,13 @@
 package com.zhe.spring_movie_theater.controller;
 
+import com.itextpdf.html2pdf.ConverterProperties;
+import com.itextpdf.html2pdf.HtmlConverter;
 import com.zhe.spring_movie_theater.model.DTO.TicketDTO;
 import com.zhe.spring_movie_theater.model.DTO.UserDTO;
 import com.zhe.spring_movie_theater.model.entity.*;
 import com.zhe.spring_movie_theater.repository.*;
 import com.zhe.spring_movie_theater.service.*;
+import com.zhe.spring_movie_theater.validator.UserValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +15,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,7 +25,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.thymeleaf.ITemplateEngine;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.context.IContext;
+import org.thymeleaf.spring5.ISpringTemplateEngine;
+import org.thymeleaf.templatemode.TemplateMode;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +45,9 @@ public class UserController {
     private ScreeningRepository screeningRepository;
 
     @Autowired
+    private UserValidator userValidator;
+
+    @Autowired
     private RowRepository rowRepository;
 
     @Autowired
@@ -38,6 +55,9 @@ public class UserController {
 
     @Autowired
     private TicketRepository ticketRepository;
+
+    @Autowired
+    private TicketService ticketService;
 
     @Autowired
     private ScreeningService screeningService;
@@ -75,22 +95,8 @@ public class UserController {
 
     @GetMapping("/home")
     public String home2(Model model) {
-        List<Movie> all_movies = movieService.findAllMovies();
-        List<Movie> movies = new ArrayList<>();
-        for (Movie i:all_movies) {
-            if (i.getScreeningList().size()!=0) {
-                movies.add(i);
-            }
-        }
-       /* List<Date> to = new ArrayList<>();
-        List<Date> from = new ArrayList<>();
-        for (Movie i:movies) {
-            to.add(i.toDate());
-            to.add(i.fromDate());
-        }*/
+        List<Movie> movies = movieService.findAllValidMovies();
         model.addAttribute("movies", movies);
-        //model.addAttribute("to", to);
-       // model.addAttribute("from", from);
         return "home";
     }
 
@@ -102,10 +108,10 @@ public class UserController {
 
     @PostMapping("/registration")
     public String registration(@ModelAttribute("userForm") UserDTO userForm, BindingResult bindingResult) {
-       /* userValidator.validate(userForm, bindingResult);
+       userValidator.validate(userForm, bindingResult);
         if (bindingResult.hasErrors()) {
             return "registration";
-        }*/
+        }
         User user = mapper.map(userForm, User.class);
         userService.save(user);
         return "redirect:/home";
@@ -156,18 +162,58 @@ public class UserController {
     }
 
     @PostMapping("/buy/{id}/{seat}/{row}")
-    public String buy_ticket(Model model,@PathVariable Long id, @PathVariable Long row, @PathVariable Long seat) {
+    public String buy_ticket(Authentication authentication, Model model, @PathVariable Long id,
+                             @PathVariable Long row, @PathVariable Long seat) {
         Screening screening = screeningService.findById(id);
-        Ticket ticket = new Ticket(screening, rowRepository.findById(id).get(), seat.intValue(), screening.getBase_cost().intValue());
+        Ticket ticket = new Ticket(screening, rowRepository.findById(id).get(), seat.intValue(), screening.getBase_cost().intValue(), userService.findByUsername(authentication.getName()));
         ticketRepository.save(ticket);
         return "redirect:/home";
     }
 
-    @GetMapping("/{id}/screenings")
-    public String screening_control(Model model, @PathVariable Long id) {
+    @GetMapping("/{id}/screening")
+    public String screenings(Model model, @PathVariable Long id) {
         List<Screening> screenings = movieService.findById(id).getScreeningList();
         model.addAttribute("screenings", screenings);
         model.addAttribute("id", id);
         return "screening";
+    }
+
+    @GetMapping("/usercabinet")
+    public String usercabinet(Model model, Authentication authentication) {
+        List<Ticket> tickets = userService.findByUsername(authentication.getName()).getTicketList();
+        model.addAttribute("tickets", tickets);
+        return "user_cabinet";
+    }
+
+    @PostMapping("/ticket/{id}/pdf")
+    public String ticket_pdf(Model model, @PathVariable Long id) {
+
+        Ticket ticket = ticketService.findById(id);
+        model.addAttribute("ticket", ticket);
+        /*Context context = new Context();
+        context.setVariable("ticket", ticket);
+        ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
+        templateResolver.setSuffix(".html");
+        templateResolver.setTemplateMode(TemplateMode.HTML);
+        templateResolver.setTemplateMode(TemplateMode.HTML);
+        templateResolver.setCharacterEncoding("UTF-8");
+        TemplateEngine templateEngine = new TemplateEngine();
+        templateEngine.setTemplateResolver(templateResolver);
+
+        String ticketPDF = templateEngine.process("ticket_pdf_generation", context);
+
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+
+        ConverterProperties converterProperties = new ConverterProperties();
+        converterProperties.setBaseUri("http://localhost:8090");
+
+        HtmlConverter.convertToPdf(ticketPDF, target, converterProperties);
+
+        byte[] bytes = target.toByteArray();
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(bytes);*/
+        return "ticket_pdf_generation";
     }
 }

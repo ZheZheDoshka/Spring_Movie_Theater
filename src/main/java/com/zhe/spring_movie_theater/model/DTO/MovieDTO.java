@@ -19,4 +19,14 @@ public class MovieDTO {
     private String description_ru;
     private String description_ua;
     private String description_en;
+
+
+    public MovieDTO(String name_ru, String name_ua, String name_en, String description_ru, String description_ua, String description_en) {
+        this.name_ru = name_ru;
+        this.name_ua = name_ua;
+        this.name_en = name_en;
+        this.description_ru = description_ru;
+        this.description_ua = description_ua;
+        this.description_en = description_en;
+    }
 }

@@ -118,7 +118,7 @@ public class AdminController {
         List<Screening> screenings = movieService.findById(sId).getScreeningList();
         model.addAttribute("screenings", screenings);
         model.addAttribute("id", sId);
-        return "screening_control";
+        return "screening";
     }
 
     @GetMapping("/{id}/add_screening")
