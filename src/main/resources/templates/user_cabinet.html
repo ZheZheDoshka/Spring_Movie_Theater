@@ -31,7 +31,7 @@
                 <div class="col-xs-6 col-md-2" th:case="'ua'" ><div th:text="${ticket.getScreening().getMovie().getName_ua()}"></div></div>
             </div>
                 <div class="col-xs-6 col-md-2">
-                <form method="POST" th:action="@{'/ticket/'+ ${ticket.getId()} + '/pdf'}" class="form-signin">
+                <form method="POST" th:action="@{'/ticket/'+ ${ticket.getId()} + '/' + ${#locale.language} + '/pdf'}" class="form-signin">
                     <button class="btn btn-light" type="submit" th:utext="#{user.download}"></button>
                 </form>
                 </p>

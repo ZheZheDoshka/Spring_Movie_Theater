@@ -15,7 +15,7 @@
         });
     </script>
 </head>
-<body>
+<body style="background-color:#2a2c2f;">
 
 <div class="container">
     <header class="d-flex justify-content-md-end">
@@ -47,8 +47,8 @@
             <div>
             <div th:switch="${row_seat.intValue()}">
                     <button th:case="0" type="button" class="btn btn-secondary">|<a sec:authorize="hasRole('USER')">
-                        <form class="form-signin" method="post"  th:action="@{'/ticket/'+ ${id} + '/' + ${seat.indexOf(row_seat)} + '/' + ${seats.indexOf(seat)}}" >
-                        <button type="submit" class="btn btn-dark" ></button>
+                        <form class="form-signin" method="post"  th:action="@{'/ticket/'+ ${id} + '/' + ${seats.get(seats.indexOf(seat)).indexOf(row_seat)} + '/' + ${seats.indexOf(seat)}}" >  <! bug here-->
+                            <button type="submit" class="btn btn-dark" ></button>
                         </form>
                     </a>|
                     </button>

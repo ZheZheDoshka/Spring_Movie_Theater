@@ -8,7 +8,10 @@ import com.zhe.spring_movie_theater.model.entity.*;
 import com.zhe.spring_movie_theater.repository.*;
 import com.zhe.spring_movie_theater.service.*;
 import com.zhe.spring_movie_theater.validator.UserValidator;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Slf4j
 @Controller
 public class UserController {
 
@@ -80,6 +84,8 @@ public class UserController {
     @Autowired
     private ModelMapper mapper;
 
+    final Logger logger = LoggerFactory.getLogger(UserController.class);
+
     List<Screening> empty = new ArrayList<>();
 
     /*@GetMapping("/")
@@ -113,6 +119,7 @@ public class UserController {
             return "registration";
         }
         User user = mapper.map(userForm, User.class);
+        logger.info("New user registered:" + userForm.getUsername());
         userService.save(user);
         return "redirect:/home";
     }
@@ -126,12 +133,13 @@ public class UserController {
         if(logout != null) {
             model.addAttribute("message","login.out");
         }
-
         return "login";
     }
 
     @GetMapping("/logout")
-    public String logout(Model model) {
+    public String logout(Authentication authentication, Model model) {
+
+        logger.info("User " + authentication.getName() + "logged out "); //fix?
         return "redirect:/login";
     }
 
@@ -185,15 +193,18 @@ public class UserController {
         return "user_cabinet";
     }
 
-    @PostMapping("/ticket/{id}/pdf")
-    public String ticket_pdf(Model model, @PathVariable Long id) {
+    @PostMapping("/ticket/{id}/{locale}/pdf")
+    public ResponseEntity<?> ticket_pdf(Model model, @PathVariable Long id,
+                                        @PathVariable String locale) {
 
         Ticket ticket = ticketService.findById(id);
         model.addAttribute("ticket", ticket);
-        /*Context context = new Context();
+        Context context = new Context();
         context.setVariable("ticket", ticket);
+        context.setVariable("lang", locale);
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
         templateResolver.setSuffix(".html");
+        templateResolver.setPrefix("pdf_templates/");
         templateResolver.setTemplateMode(TemplateMode.HTML);
         templateResolver.setTemplateMode(TemplateMode.HTML);
         templateResolver.setCharacterEncoding("UTF-8");
@@ -213,7 +224,7 @@ public class UserController {
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)
-                .body(bytes);*/
-        return "ticket_pdf_generation";
+                .body(bytes);
+        //return "ticket_pdf_generation";
     }
 }

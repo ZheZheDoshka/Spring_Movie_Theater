@@ -42,30 +42,6 @@ public class AdminController {
     @Autowired
     private ScreeningService screeningService;
 
-
-   /* @GetMapping("/add_hall")
-    public String hall_add(Model model) {
-        model.addAttribute("hallForm", new HallDTO());
-        return "add_hall";
-    }
-
-    @GetMapping("/{id}/hall_change")
-    public String hall_edit(Model model, @PathVariable String id) {
-        model.addAttribute("id", id);
-        return "a_change";
-    }
-
-    @PostMapping("/add_hall")
-    public String hall_add(@ModelAttribute("hallForm") HallDTO hallForm, BindingResult bindingResult) {
-        //userValidator.validate(userForm, bindingResult);
-        if (bindingResult.hasErrors()) {
-            return "ucaradd";
-        }
-        Hall hall = mapper.map(hallForm, Hall.class);
-        hallService.save(hall);
-        return "redirect:/ucarcontrol";
-    }*/
-
     @GetMapping("/movie_control")
     public String movie(Model model) {
         List<Movie> movies = movieService.findAllMovies();
