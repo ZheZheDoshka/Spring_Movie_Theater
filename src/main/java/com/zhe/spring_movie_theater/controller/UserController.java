@@ -147,19 +147,27 @@ public class UserController {
     public String movie(Model model, @PathVariable String id) {
         Hall hall = hallService.findById(Long.valueOf(1));
         List<Ticket> tickets = screeningService.findById(Long.valueOf(id)).getTicketList();
-        List<List<Integer>> seats = new ArrayList<>();
+        List<Integer[][]> seats = new ArrayList<Integer[][]>();
         List<Row> hall_rows = hall.getRowList();
+        List<Integer[]> indexes = new ArrayList<Integer[]>();
         for (Row i:hall_rows) {
-            List<Integer> row_seats = new ArrayList<>();
+            Integer[][] row_seats = new Integer[i.getSeat_capacity()][2];
+            Integer[] index = new Integer[i.getSeat_capacity()];
             for (int j = 0; j<i.getSeat_capacity()-1; j++) {
-                row_seats.add(0);
+                row_seats[j][0] = 0;
+                row_seats[j][1] = j;
+            }
+            for (Ticket k:tickets) {
+                if (k.getNum_row().getNumber() == i.getNumber()){
+                    row_seats[k.getSeat()][0] = 1;
+                }
             }
             seats.add(row_seats);
-        }
-        for (Ticket i:tickets) {
-            seats.get(i.getNum_row().getNumber()).add(i.getSeat(),1);
+            indexes.add(index);
         }
         model.addAttribute("seats",seats);
+        //logger.info(String.valueOf(seats.get(0)[0][0].intValue()));
+        model.addAttribute("indexes", indexes);
 
         return "a_hall_control";
     }

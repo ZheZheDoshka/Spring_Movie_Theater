@@ -2,6 +2,7 @@ package com.zhe.spring_movie_theater.validator;
 
 import com.zhe.spring_movie_theater.model.DTO.UserDTO;
 import com.zhe.spring_movie_theater.model.enums.Role;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
 public class TicketValidatorTest {
@@ -10,7 +11,7 @@ public class TicketValidatorTest {
     private UserDTO valid_user;
     private UserDTO repeated_user;
 
-    @BeforeEach
+    @BeforeAll
     public void beforeTest() {
         this.invalid_user = new UserDTO ("u", "n", Role.USER);
         this.valid_user = new UserDTO ("userTest1", "goodpassword", Role.USER);

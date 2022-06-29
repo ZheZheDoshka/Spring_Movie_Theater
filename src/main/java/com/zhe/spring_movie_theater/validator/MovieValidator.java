@@ -27,30 +27,26 @@ public class MovieValidator implements Validator {
     public void validate(Object target, Errors errors) {
         MovieDTO movie = (MovieDTO) target;
         if((movie.getName_en().length() < 2)||(movie.getName_en().length()>32))
-            errors.rejectValue("name_en","login.invalid.moviename");
+            errors.rejectValue("name_en","movie.invalid.moviename");
 
         if((movie.getName_ru().length() < 2)||(movie.getName_ru().length()>32))
-            errors.rejectValue("name_ru","login.invalid.moviename");
+            errors.rejectValue("name_ru","movie.invalid.moviename");
 
 
         if((movie.getName_ua().length() < 2))
-            errors.rejectValue("name_ua","login.invalid.moviename");
+            errors.rejectValue("name_ua","movie.invalid.moviename");
 
 
         if((movie.getDescription_ua().length() < 2))
-            errors.rejectValue("description_ua","login.invalid.moviedesc");
+            errors.rejectValue("description_ua","movie.invalid.moviedesc");
 
 
         if((movie.getDescription_en().length() < 2))
-            errors.rejectValue("description_en","login.invalid.moviedesc");
+            errors.rejectValue("description_en","movie.invalid.moviedesc");
 
 
         if((movie.getDescription_ru().length() < 2))
-            errors.rejectValue("description_ru","login.invalid.moviedesc");
+            errors.rejectValue("description_ru","movie.invalid.moviedesc");
 
-
-       /* if(userService.findByUsername(user.getUsername())!=null){
-            errors.rejectValue("username", "login.repeating.username");
-        }*/
 }
 }

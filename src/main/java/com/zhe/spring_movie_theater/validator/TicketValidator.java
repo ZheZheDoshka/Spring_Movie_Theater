@@ -31,7 +31,7 @@ public class TicketValidator  implements Validator {
             if (i.getSeat()==ticket.getSeat()) {
                 if(i.getNum_row().equals(ticket.getNum_row()))
                 {
-                    errors.rejectValue("password","login.invalid.place");
+                    errors.rejectValue("password","ticket.invalid.place");
                 }
             }
             }

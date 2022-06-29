@@ -42,12 +42,12 @@
 <div>
     <h1 th:utext="#{admin.car.list}"></h1>
 
-    <div class="row" th:each = "seat: ${seats}" >
-        <div class="col"  th:each = "row_seat: ${seat}">
+    <div class="row" th:each = "row: ${seats}" >
+        <div class="col"  th:each = "seat: ${row}">
             <div>
-            <div th:switch="${row_seat.intValue()}">
+            <div th:switch="${seat[0]}">
                     <button th:case="0" type="button" class="btn btn-secondary">|<a sec:authorize="hasRole('USER')">
-                        <form class="form-signin" method="post"  th:action="@{'/ticket/'+ ${id} + '/' + ${seats.get(seats.indexOf(seat)).indexOf(row_seat)} + '/' + ${seats.indexOf(seat)}}" >  <! bug here-->
+                        <form class="form-signin" method="post"  th:action="@{'/ticket/'+ ${id} + '/' + ${seat[1].intValue()} + '/' + ${seats.indexOf(row)}}" >  <! bug here-->
                             <button type="submit" class="btn btn-dark" ></button>
                         </form>
                     </a>|
