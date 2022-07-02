@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -32,14 +33,13 @@ import org.thymeleaf.ITemplateEngine;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.context.IContext;
+import org.thymeleaf.messageresolver.StandardMessageResolver;
 import org.thymeleaf.spring5.ISpringTemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -147,27 +147,10 @@ public class UserController {
     public String movie(Model model, @PathVariable String id) {
         Hall hall = hallService.findById(Long.valueOf(1));
         List<Ticket> tickets = screeningService.findById(Long.valueOf(id)).getTicketList();
-        List<Integer[][]> seats = new ArrayList<Integer[][]>();
         List<Row> hall_rows = hall.getRowList();
-        List<Integer[]> indexes = new ArrayList<Integer[]>();
-        for (Row i:hall_rows) {
-            Integer[][] row_seats = new Integer[i.getSeat_capacity()][2];
-            Integer[] index = new Integer[i.getSeat_capacity()];
-            for (int j = 0; j<i.getSeat_capacity()-1; j++) {
-                row_seats[j][0] = 0;
-                row_seats[j][1] = j;
-            }
-            for (Ticket k:tickets) {
-                if (k.getNum_row().getNumber() == i.getNumber()){
-                    row_seats[k.getSeat()][0] = 1;
-                }
-            }
-            seats.add(row_seats);
-            indexes.add(index);
-        }
+
+        List<Integer[][]> seats = screeningService.hallSeats(tickets, hall_rows);
         model.addAttribute("seats",seats);
-        //logger.info(String.valueOf(seats.get(0)[0][0].intValue()));
-        model.addAttribute("indexes", indexes);
 
         return "a_hall_control";
     }
@@ -208,8 +191,21 @@ public class UserController {
         Ticket ticket = ticketService.findById(id);
         model.addAttribute("ticket", ticket);
         Context context = new Context();
+        Locale res_locale = new Locale(locale);
+        ResourceBundle bundle = ResourceBundle.getBundle("messages", res_locale);
         context.setVariable("ticket", ticket);
         context.setVariable("lang", locale);
+        context.setLocale(res_locale);
+
+        /*ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("messages");
+        messageSource.setFallbackToSystemLocale(false);
+        messageSource.setCacheSeconds(0);
+        messageSource.setDefaultEncoding("UTF-8");*/
+
+        StandardMessageResolver messageResolver = new StandardMessageResolver();
+        messageResolver.getDefaultMessages();
+
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
         templateResolver.setSuffix(".html");
         templateResolver.setPrefix("pdf_templates/");
@@ -218,6 +214,8 @@ public class UserController {
         templateResolver.setCharacterEncoding("UTF-8");
         TemplateEngine templateEngine = new TemplateEngine();
         templateEngine.setTemplateResolver(templateResolver);
+
+        templateEngine.setMessageResolver(messageResolver);
 
         String ticketPDF = templateEngine.process("ticket_pdf_generation", context);
 
