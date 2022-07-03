@@ -20,11 +20,15 @@
 <div class="rounded-lg border shadow-lg p-10 w-3/5">
     <div class="flex flex-row justify-between pb-4">
         <div>
-            <h2 class="text-xl font-bold" th:text="#{admin.ticket}">
+            <h2 class="text-xl font-bold" th:text="Білет/Ticket">
             </h2>
         </div>
         <div>
-            <div class="text-xl font-bold" th:text="#{admin.movie.date}"></div>
+            <div class="text-xl font-bold" th:text="Дата сеансу/Screening Date"></div>
+        </div>
+
+        <div>
+            <div class="text-xl font-bold" th:text="${ticket.getScreening().getTime()}"></div>
         </div>
     </div>
 
@@ -32,24 +36,24 @@
     <table class="table-fixed w-full text-right border rounded">
             <tbody>
             <tr>
-                <td th:text="#{admin.movie.name}"></td>
+                <td th:text="Фільм/Movie"></td>
                 <td th:switch="${#locale.language}">
                 <div th:case="'en'" ><div th:text="${ticket.getScreening().getMovie().getName_en()}"></div> </div>
                 <div th:case="'ua'" ><div th:text="${ticket.getScreening().getMovie().getName_ua()}"></div></div>
                 </td>>
-                <td th:text="#{admin.hall.name}"></td>
+                <td th:text="Зал//Hall"></td>
                 <td th:text="${ticket.getScreening().getHall().getName()}"></td>
             </tr>
             <tr>
-                <td th:text="#{admin.screening.price}"></td>
+                <td th:text="Ціна//Price"></td>
                 <td th:text="${ticket.getCost()}"></td>
-                <td th:text="#{admin.ticket.row}"></td>
+                <td th:text="Ряд/Row"></td>
                 <td th:text="${ticket.getNum_row().getNumber() + 1}"></td>
             </tr>
             <tr>
-                <td th:text="#{login.username}"></td>
+                <td th:text="Логін/Login"></td>
                 <td th:text="${ticket.getUser().getUsername()}"></td>
-                <td th:text="#{admin.ticket.seat}"></td>
+                <td th:text="Місце/Seat"></td>
                 <td th:text="${ticket.getSeat()}"></td>
             </tr>
             </tbody>

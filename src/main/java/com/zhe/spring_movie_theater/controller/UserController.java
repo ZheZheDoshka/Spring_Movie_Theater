@@ -196,16 +196,6 @@ public class UserController {
         context.setVariable("ticket", ticket);
         context.setVariable("lang", locale);
         context.setLocale(res_locale);
-
-        /*ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasename("messages");
-        messageSource.setFallbackToSystemLocale(false);
-        messageSource.setCacheSeconds(0);
-        messageSource.setDefaultEncoding("UTF-8");*/
-
-        StandardMessageResolver messageResolver = new StandardMessageResolver();
-        messageResolver.getDefaultMessages();
-
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
         templateResolver.setSuffix(".html");
         templateResolver.setPrefix("pdf_templates/");
@@ -214,8 +204,6 @@ public class UserController {
         templateResolver.setCharacterEncoding("UTF-8");
         TemplateEngine templateEngine = new TemplateEngine();
         templateEngine.setTemplateResolver(templateResolver);
-
-        templateEngine.setMessageResolver(messageResolver);
 
         String ticketPDF = templateEngine.process("ticket_pdf_generation", context);
 
