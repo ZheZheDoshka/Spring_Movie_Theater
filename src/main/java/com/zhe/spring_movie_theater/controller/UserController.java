@@ -132,26 +132,29 @@ public class UserController {
 
         if(logout != null) {
             model.addAttribute("message","login.out");
+
         }
+
         return "login";
     }
 
     @GetMapping("/logout")
     public String logout(Authentication authentication, Model model) {
 
-        logger.info("User " + authentication.getName() + "logged out "); //fix?
+        //logger.info("User " + authentication.getName() + "logged out ");
         return "redirect:/login";
     }
 
     @GetMapping("/{id}/hall_view")
     public String movie(Model model, @PathVariable String id) {
         Hall hall = hallService.findById(Long.valueOf(1));
-        List<Ticket> tickets = screeningService.findById(Long.valueOf(id)).getTicketList();
+        Screening screening = screeningService.findById(Long.valueOf(id));
+        List<Ticket> tickets = screening.getTicketList();
         List<Row> hall_rows = hall.getRowList();
 
         List<Integer[][]> seats = screeningService.hallSeats(tickets, hall_rows);
         model.addAttribute("seats",seats);
-
+        model.addAttribute("screening",screening);
         return "a_hall_control";
     }
 
@@ -164,7 +167,7 @@ public class UserController {
     public String buy_ticket(Authentication authentication, Model model, @PathVariable Long id,
                              @PathVariable Long row, @PathVariable Long seat) {
         Screening screening = screeningService.findById(id);
-        Ticket ticket = new Ticket(screening, rowRepository.findById(id).get(), seat.intValue(), screening.getBase_cost().intValue(), userService.findByUsername(authentication.getName()));
+        Ticket ticket = new Ticket(screening, rowRepository.findById(id+1).get(), seat.intValue(), screening.getBase_cost().intValue(), userService.findByUsername(authentication.getName()));
         ticketRepository.save(ticket);
         return "redirect:/home";
     }

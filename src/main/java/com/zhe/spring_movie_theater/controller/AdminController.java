@@ -10,6 +10,7 @@ import com.zhe.spring_movie_theater.model.entity.Screening;
 import com.zhe.spring_movie_theater.service.HallService;
 import com.zhe.spring_movie_theater.service.MovieService;
 import com.zhe.spring_movie_theater.service.ScreeningService;
+import com.zhe.spring_movie_theater.validator.MovieValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -42,6 +43,9 @@ public class AdminController {
     @Autowired
     private ScreeningService screeningService;
 
+    @Autowired
+    private MovieValidator movieValidator;
+
     @GetMapping("/movie_control")
     public String movie(Model model) {
         List<Movie> movies = movieService.findAllMovies();
@@ -57,7 +61,7 @@ public class AdminController {
 
     @PostMapping("/add_movie")
     public String movie_add(@ModelAttribute("movieForm") MovieDTO movieForm, BindingResult bindingResult) {
-        //userValidator.validate(userForm, bindingResult);
+        movieValidator.validate(movieForm, bindingResult);
         if (bindingResult.hasErrors()) {
             return "";
         }

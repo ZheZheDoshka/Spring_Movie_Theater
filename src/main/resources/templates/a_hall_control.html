@@ -36,23 +36,24 @@
                 </div>
             </li>
         </ul>
-    </header>
+    </header>s
 </div>
 
 <div>
-    <h1 th:utext="#{admin.car.list}"></h1>
+    <p style="color:#FFFFFF"><h1 th:utext="#{admin.hall} + ' ' + ${screening.getHall().getName()} "></h1></p>
 
     <div class="row" th:each = "row: ${seats}" >
         <div class="col"  th:each = "seat: ${row}">
             <div>
             <div th:switch="${seat[0]}">
-                    <button th:case="0" type="button" class="btn btn-secondary">|<a sec:authorize="hasRole('USER')">
-                        <form class="form-signin" method="post"  th:action="@{'/ticket/'+ ${id} + '/' + ${seat[1].intValue()} + '/' + ${seats.indexOf(row)}}" >  <! bug here-->
-                            <button type="submit" class="btn btn-dark" ></button>
+                    <div th:case="0" >
+                        <button sec:authorize="hasRole('ADMIN')" type="button" class="btn btn-secondary">| |</button>
+                        <form class="form-signin" method="post" sec:authorize="hasRole('USER')"  th:action="@{'/ticket/'+ ${id} + '/' + ${seat[1].intValue()} + '/' + ${seats.indexOf(row)}}" >  <! bug here-->
+                            <button type="submit" class="btn btn-dark" th:utext="| |"></button>
                         </form>
-                    </a>|
-                    </button>
-                    <button th:case="1" type="button" class="btn btn-primary">[ ]</button>
+                        <button sec:authorize access="!isAuthenticated()" type="button" class="btn btn-secondary">| |</button>
+                    </div>
+                    <div th:case="1" > <button type="button" class="btn btn-primary">[ ]</button></div>
             </div>
             </div>
         </div>
