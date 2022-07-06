@@ -20,11 +20,11 @@
 <div class="rounded-lg border shadow-lg p-10 w-3/5">
     <div class="flex flex-row justify-between pb-4">
         <div>
-            <h2 class="text-xl font-bold" th:text="Білет/Ticket">
+            <h2 class="text-xl font-bold" th:text="Білет // Ticket">
             </h2>
         </div>
         <div>
-            <div class="text-xl font-bold" th:text="Дата сеансу/Screening Date"></div>
+            <div class="text-xl font-bold" th:text="Дата сеансу // Screening Date"></div>
         </div>
 
         <div>
@@ -47,11 +47,11 @@
             <tr>
                 <td th:text="Ціна//Price"></td>
                 <td th:text="${ticket.getCost()}"></td>
-                <td th:text="Ряд/Row"></td>
+                <td th:text="Ряд//Row"></td>
                 <td th:text="${ticket.getNum_row().getNumber() + 1}"></td>
             </tr>
             <tr>
-                <td th:text="Логін/Login"></td>
+                <td th:text="Логін//Login"></td>
                 <td th:text="${ticket.getUser().getUsername()}"></td>
                 <td th:text="Місце/Seat"></td>
                 <td th:text="${ticket.getSeat()}"></td>

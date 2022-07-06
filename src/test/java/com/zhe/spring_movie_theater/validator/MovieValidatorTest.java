@@ -65,6 +65,7 @@ public class MovieValidatorTest {
         Errors errors_expected = new BeanPropertyBindingResult(invalid_movie_name_ua, "");
         errors_expected.rejectValue("name_ua","movie.invalid.moviename");
         Errors errors = new BeanPropertyBindingResult(invalid_movie_name_ua, "");
+        movieValidator.validate(invalid_movie_name_ua, errors);
 
         assertEquals(errors_expected, errors);
     }
@@ -75,6 +76,7 @@ public class MovieValidatorTest {
         Errors errors_expected = new BeanPropertyBindingResult(invalid_movie_name_ru, "");
         errors_expected.rejectValue("name_ru","movie.invalid.moviename");
         Errors errors = new BeanPropertyBindingResult(invalid_movie_name_ru, "");
+        movieValidator.validate(invalid_movie_name_ru, errors);
 
         assertEquals(errors_expected, errors);
     }
@@ -83,8 +85,9 @@ public class MovieValidatorTest {
     @Test
     public void testInvalidMovieDescEn() {
         Errors errors_expected = new BeanPropertyBindingResult(invalid_movie_desc_en, "");
-        errors_expected.rejectValue("name_ru","movie.invalid.moviedesc");
+        errors_expected.rejectValue("description_en","movie.invalid.moviedesc");
         Errors errors = new BeanPropertyBindingResult(invalid_movie_desc_en, "");
+        movieValidator.validate(invalid_movie_name_en, errors);
 
         assertEquals(errors_expected, errors);
     }
