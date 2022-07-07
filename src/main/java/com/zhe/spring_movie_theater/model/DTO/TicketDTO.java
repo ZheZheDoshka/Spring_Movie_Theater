@@ -21,4 +21,12 @@ public class TicketDTO {
     private int seat;
     private int cost;
     private User user;
+
+    public TicketDTO(Screening screening, Row num_row, int seat, int cost, User user) {
+        this.screening = screening;
+        this.num_row = num_row;
+        this.seat = seat;
+        this.cost = cost;
+        this.user = user;
+    }
 }

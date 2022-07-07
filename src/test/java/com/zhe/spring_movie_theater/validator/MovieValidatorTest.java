@@ -87,7 +87,7 @@ public class MovieValidatorTest {
         Errors errors_expected = new BeanPropertyBindingResult(invalid_movie_desc_en, "");
         errors_expected.rejectValue("description_en","movie.invalid.moviedesc");
         Errors errors = new BeanPropertyBindingResult(invalid_movie_desc_en, "");
-        movieValidator.validate(invalid_movie_name_en, errors);
+        movieValidator.validate(invalid_movie_desc_en, errors);
 
         assertEquals(errors_expected, errors);
     }
