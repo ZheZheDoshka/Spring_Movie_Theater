@@ -82,6 +82,20 @@
 
             </div>
 
+            <div th:case="'ua'">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th scope="row" th:utext="${movie.getName_ua()}"></th>
+                        <td th:utext="${movie.getDescription_ua()}"></td>
+                        <td>
+                            <a th:href="@{'/'+ ${movie.getId()} + '/screening'}" class="btn btn-light" type="button" th:utext="#{admin.screening.list}"></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
             <thead>
             <tr>
                 <th scope="row"  th:utext="#{admin.to}"></th>
